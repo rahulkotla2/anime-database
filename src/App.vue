@@ -3,17 +3,43 @@
     <header>
       <h1>The <strong>Anime</strong>Database</h1>
 
-      <form class="search-box">
-        <input type="search" class="search-field" placeholder="Search for an anime..." required>
+      <form class="search-box" @submit.prevent="HandleSearch">
+        <input type="search" class="search-field" placeholder="Search for an anime..." v-model="search_query" required>
       </form>
     </header>
+    <main>
+      <div class="cards" v-if="animeList.length > 0">
+        <anime-card v-for="anime in animeList" :key="anime.mal_id" :anime="anime"></anime-card>
+      </div>
+      <div class="no-results" v-else>
+        <h3>Sorry, we have no results...</h3>
+      </div>
+    </main>
   </div>
 </template>
 
 <script>
-
+import AnimeCard from './components/AnimeCard.vue'
 export default {
-
+  components: {
+    AnimeCard,
+  },
+  data() {
+    return {
+      search_query: "",
+      animeList: []
+    }
+  },
+  methods: {
+     HandleSearch() {
+      fetch(`https://api.jikan.moe/v4/anime?q=${this.search_query}`)
+      .then(res => res.json())
+      .then(data => {
+        this.animeList = data.data;
+      });
+      this.search_query = "";
+    }
+  }
 }
 </script>
 
@@ -65,7 +91,7 @@ header h1:hover {
   outline: none;
 
   background-color: #f3f3f3;
-  box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
 
   display: block;
   width: 100%;
@@ -77,13 +103,27 @@ header h1:hover {
   transition: 0.4s;
 }
 
-.search-field::placeholder{
+.search-field::placeholder {
   color: #aaa;
 }
 
-.search-field:focus,.search-field:valid{
+.search-field:focus,
+.search-field:valid {
   color: #fff;
-  background-color:#313131;
-  box-shadow: 0 0 0 rgba(0,0,0,0.15);
+  background-color: #313131;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.15);
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -8px;
 }
 </style>
