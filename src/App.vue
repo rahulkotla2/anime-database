@@ -36,7 +36,10 @@ export default {
       .then(res => res.json())
       .then(data => {
         this.animeList = data.data;
-      });
+      })
+      .catch(err => {
+        console.log(err);
+      })
       this.search_query = "";
     }
   }
@@ -126,4 +129,16 @@ main {
   flex-wrap: wrap;
   margin: 0 -8px;
 }
+
+@media screen and (min-width : 280px) and (max-width : 550px){
+   header h1{
+    font-size: 25px;
+   }
+}
+
+@media screen and (max-width :390px){
+    .cards{
+      display : inline-block;
+    }
+  }
 </style>

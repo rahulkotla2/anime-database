@@ -1,8 +1,10 @@
 <template>
     <div class="card">
         <a href="#" target="_blank">
-            <img :src="anime.images.jpg.image_url" :alt="anime.title + ' Poster'">
-            <h3>{{anime.title}}</h3>
+            
+                <img :src="anime.images.jpg.image_url" :alt="anime.title + ' Poster'">
+                <h3>{{ anime.title }}</h3>
+            
         </a>
     </div>
 </template>
@@ -13,7 +15,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .card {
     flex: 1 1 33%;
     width: 33%;
@@ -21,6 +23,13 @@ export default {
     padding: 0px 8px;
     margin-bottom: 16px;
 }
+.card a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
 
 .card img {
     width: 100%;
@@ -33,9 +42,16 @@ export default {
 }
 
 .card h3 {
-    padding: 16px;
+    padding: 5px;
+    height: 50px;
+    overflow-y: scroll;
     color: #313131;
+    text-align: center;
     transition: 0.4s;
+}
+
+.card h3::-webkit-scrollbar {
+    width: 0;
 }
 
 .card:hover img {
@@ -44,5 +60,44 @@ export default {
 
 .card:hover h3 {
     color: #24c444;
+}
+
+@media screen and (min-width : 390px) and (max-width : 550px) {
+    .card h3 {
+        font-size: small;
+        height: 30px;
+        overflow: scroll;
+        padding: 0;
+    }
+
+    h3::-webkit-scrollbar-thumb {
+        width: 2px;
+    }
+
+    .card img {
+        width: 100px;
+        height: 130px;
+    }
+}
+
+@media screen and (max-width :390px) {
+    .card {
+        max-width: none;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card a img {
+        width: 100%
+    }
 }
 </style>
