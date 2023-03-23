@@ -1,7 +1,6 @@
 <template>
     <div class="card">
-        <a href="#" target="_blank">
-            
+        <a :href="anime.url" target="_blank">
                 <img :src="anime.images.jpg.image_url" :alt="anime.title + ' Poster'">
                 <h3>{{ anime.title }}</h3>
             
@@ -42,7 +41,7 @@ export default {
 }
 
 .card h3 {
-    padding: 5px;
+    padding: 10px 5px;
     height: 50px;
     overflow-y: scroll;
     color: #313131;

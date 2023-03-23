@@ -11,9 +11,10 @@
       <div class="cards" v-if="animeList.length > 0">
         <anime-card v-for="anime in animeList" :key="anime.mal_id" :anime="anime"></anime-card>
       </div>
-      <div class="no-results" v-else>
+      <div class="no-results" v-if="!isLoading && animeList.length == 0">
         <h3>Sorry, we have no results...</h3>
       </div>
+      <base-loader v-if="isLoading"></base-loader>
     </main>
   </div>
 </template>
@@ -27,19 +28,23 @@ export default {
   data() {
     return {
       search_query: "",
+      isLoading : false,
       animeList: []
     }
   },
   methods: {
-     HandleSearch() {
+    HandleSearch() {
+      this.isLoading = true;
+      this.animeList = [];
       fetch(`https://api.jikan.moe/v4/anime?q=${this.search_query}`)
-      .then(res => res.json())
-      .then(data => {
-        this.animeList = data.data;
-      })
-      .catch(err => {
-        console.log(err);
-      })
+        .then(res => res.json())
+        .then(data => {
+          this.animeList = data.data;
+          this.isLoading = false;
+        })
+        .catch(err => {
+          console.log(err);
+        })
       this.search_query = "";
     }
   }
@@ -130,15 +135,15 @@ main {
   margin: 0 -8px;
 }
 
-@media screen and (min-width : 280px) and (max-width : 550px){
-   header h1{
+@media screen and (min-width : 280px) and (max-width : 550px) {
+  header h1 {
     font-size: 25px;
-   }
+  }
 }
 
-@media screen and (max-width :390px){
-    .cards{
-      display : inline-block;
-    }
+@media screen and (max-width :390px) {
+  .cards {
+    display: inline-block;
   }
+}
 </style>
